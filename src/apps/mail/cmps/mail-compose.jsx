@@ -45,15 +45,9 @@ export function MailCompose() {
       return showErrorMsg('Invalid Email Address!')
     }
     if (mailToEdit.isDraft) delete mailToEdit.isDraft
-    if (isLocation) {
-      const { lat, lng } = await mailService.getUserLCordinates()
-      const emailToSent = { ...mailToEdit, lat, lng }
-      const addedMail = await onAddMail(emailToSent)
-      setMailToEdit(addedMail)
-    } else {
-      const addedMail = await onAddMail(mailToEdit)
-      setMailToEdit(addedMail)
-    }
+    console.log('tttttttttt', mailToEdit)
+    const addedMail = await onAddMail(mailToEdit)
+    setMailToEdit(addedMail)
   }
 
   function onChangeViewState(viewState, ev) {
