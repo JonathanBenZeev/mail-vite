@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 import { utilService } from '../../../services/util.service.js'
 import { mailService } from '../services/mail.service.js'
+import { GoogleMap } from '../../../cmps/GoogleMap'
 
 export function MailDetails() {
 	const [mail, setMail] = useState()
@@ -39,6 +40,7 @@ export function MailDetails() {
 				<img className="mail-user-img" src="img/default_mail_user.jpg" alt="" />
 				<p>{mail.body}</p>
 			</div>
+			{mail.lat && mail.lng && <GoogleMap lat={mail.lat} lng={mail.lng} />}
 		</section>
 	)
 }

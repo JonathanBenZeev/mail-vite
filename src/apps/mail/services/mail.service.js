@@ -26,7 +26,8 @@ export const mailService = {
 	// getDefaultSort,
 	getSortFromParams,
 	getUnreadCount,
-	filterMailsByFolder
+	filterMailsByFolder,
+	getUserLCordinates
 }
 
 function query(filterBy = {}, sortBy = getDefaultSort()) {
@@ -338,4 +339,23 @@ Mahatma
 
 		utilService.saveToStorage(MAIL_KEY, mails)
 	}
+}
+
+function getUserLCordinates() {
+	return new Promise((resolve, reject) => {
+		if ('geolocation' in navigator) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					const lat = position.coords.latitude;
+					const lng = position.coords.longitude;
+					resolve({ lat, lng });
+				},
+				(error) => {
+					reject(error);
+				},
+			);
+		} else {
+			reject(new Error('Geolocation is not supported in this browser.'));
+		}
+	});
 }
