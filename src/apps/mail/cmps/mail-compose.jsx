@@ -66,8 +66,7 @@ export function MailCompose() {
         const lng = null
         setMailToEdit((prev) => ({ ...prev, lat, lng }))
       }
-    }
-    setMailToEdit((prev) => ({ ...prev, [name]: value }))
+    } else setMailToEdit((prev) => ({ ...prev, [name]: value }))
   }
 
   console.log(mailToEdit)
