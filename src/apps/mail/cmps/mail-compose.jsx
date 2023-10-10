@@ -45,7 +45,6 @@ export function MailCompose() {
       return showErrorMsg('Invalid Email Address!')
     }
     if (mailToEdit.isDraft) delete mailToEdit.isDraft
-    console.log('tttttttttt', mailToEdit)
     const addedMail = await onAddMail(mailToEdit)
     setMailToEdit(addedMail)
   }

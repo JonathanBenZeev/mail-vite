@@ -1,7 +1,9 @@
 import GoogleMapReact from 'google-map-react';
 import {API_key} from '../key.js'
+import { GiPositionMarker } from "react-icons/gi";
 
-const Marker = ({ text }) => <div style={{ color: 'red', fontSize: '30px' }}>{text}</div>;
+
+const Marker = () => <div style={{ color: 'red', fontSize: '30px' }}><GiPositionMarker/></div>;
 
 export const GoogleMap = ({ lat, lng }) => {
 	const zoom = 12;
