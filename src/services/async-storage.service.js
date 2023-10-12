@@ -4,6 +4,7 @@ export const storageService = {
 	post,
 	put,
 	remove,
+	saveCollection
 }
 
 function query(entityType, delay = 500) {
@@ -46,6 +47,11 @@ function remove(entityType, entityId) {
 		entities.splice(idx, 1)
 		_save(entityType, entities)
 	})
+}
+
+function saveCollection(entityType, entities){
+	_save(entityType, entities)
+	return new Promise(resolve => setTimeout(() => resolve(entities), 200))
 }
 
 // Private functions

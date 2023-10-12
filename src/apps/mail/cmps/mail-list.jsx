@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 
 import { MailPreview } from './mail-preview.jsx'
 
-export function MailList({ mails,toggleEmailSelection, onUpdateMail,selectedMailsIds, onRemoveMail, onToggleTrash }) {
+export function MailList({ mails,toggleEmailSelection, onUpdateMail,selectedMailsIds, onRemoveMail, onToggleTrash,folder }) {
 	return <Fragment>
 		{!!mails.length && (
 			<ul className="clean-list mail-list">
@@ -10,6 +10,7 @@ export function MailList({ mails,toggleEmailSelection, onUpdateMail,selectedMail
 					<MailPreview
 
 						key={mail.id}
+						folder={folder}
 						toggleEmailSelection={toggleEmailSelection}
 						selectedMailsIds={selectedMailsIds}
 						mail={mail}

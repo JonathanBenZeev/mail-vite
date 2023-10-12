@@ -82,15 +82,19 @@ export function MailPreview({ mail, selectedMailsIds, toggleEmailSelection, onRe
 	const isStarredClass = isStarred ? 'starred' : 'un-starred'
 	const starTitle = isStarred ? 'Starred' : 'Not starred'
 
-
 	return (
 		<Fragment>
 			<li onClick={onToggleIsExapnded} className={`mail-preview ${isReadClass}`}>
-				<input onClick={(ev) => ev.stopPropagation()} type="checkbox" onChange={(ev) => {
+				{folder === 'trash' && <input onClick={(ev) => ev.stopPropagation()} type="checkbox" onChange={(ev) => {
 					toggleEmailSelection(mail.id)
 				}}
 					checked={selectedMailsIds.includes(mail.id)}
-				/>
+				/>}
+				{folder === 'inbox' && <input onClick={(ev) => ev.stopPropagation()} type="checkbox" onChange={(ev) => {
+					toggleEmailSelection(mail.id)
+				}}
+					checked={selectedMailsIds.includes(mail.id)}
+				/>}
 				{/* <span className="material-symbols-outlined checkbox">check_box_outline_blank</span> */}
 				<span
 					onClick={onToggleIsStarred}

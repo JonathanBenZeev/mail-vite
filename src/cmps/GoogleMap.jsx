@@ -1,5 +1,5 @@
 import GoogleMapReact from 'google-map-react';
-import {API_key} from '../key.js'
+// import {API_key} from '../key.js'
 import { GiPositionMarker } from "react-icons/gi";
 
 
@@ -10,13 +10,13 @@ export const GoogleMap = ({ lat, lng }) => {
 
 	return (
 		<div style={{ height: '50%', width: '50%' }}>
-			<GoogleMapReact
+			{/* <GoogleMapReact
 				bootstrapURLKeys={{ key: API_key }}
 				defaultCenter={{ lat, lng }}
 				defaultZoom={zoom}
 			>
 				<Marker text={'Marker'} lat={lat} lng={lng} />
-			</GoogleMapReact>
+			</GoogleMapReact> */}
 		</div>
 	);
 };

@@ -12,6 +12,7 @@ _createMails()
 
 const debouncedGet = utilService.debouncePromise(get)
 
+
 export const mailService = {
 	query,
 	get,
@@ -27,7 +28,7 @@ export const mailService = {
 	getSortFromParams,
 	getUnreadCount,
 	filterMailsByFolder,
-	getUserLCordinates
+	toggleArchiveMany
 }
 
 function query(filterBy = {}, sortBy = getDefaultSort()) {
@@ -59,6 +60,12 @@ function save(mail) {
 		mail.from = getLoggedUser().email
 		return storageService.post(MAIL_KEY, mail)
 	}
+}
+
+async function toggleArchiveMany(selectedMailsIds) {
+	const mails = await query()
+	const mailsToSave = mails.map(m => (selectedMailsIds.includes(m.id)) ? (m.removedAt)?{...m,removedAt : null}: { ...m, removedAt: Date.now() } : m)
+	return storageService.saveCollection(MAIL_KEY, mailsToSave)
 }
 
 function getEmptyMail(
@@ -116,6 +123,8 @@ function getSortFromParams(searchParams) {
 }
 
 function getMailFromSearchParams(searchParams = { get: () => { } }) {
+	console.log('searchParams.get(subject):', searchParams.get('subject'))
+	console.log('searchParams.get(body):', searchParams.get('body'))
 	return {
 		id: '',
 		subject: searchParams.get('subject') || '',
@@ -339,23 +348,4 @@ Mahatma
 
 		utilService.saveToStorage(MAIL_KEY, mails)
 	}
-}
-
-function getUserLCordinates() {
-	return new Promise((resolve, reject) => {
-		if ('geolocation' in navigator) {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					const lat = position.coords.latitude;
-					const lng = position.coords.longitude;
-					resolve({ lat, lng });
-				},
-				(error) => {
-					reject(error);
-				},
-			);
-		} else {
-			reject(new Error('Geolocation is not supported in this browser.'));
-		}
-	});
 }

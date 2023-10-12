@@ -28,7 +28,6 @@ export function MailCompose() {
 
   useEffect(() => {
     setSearchParams({ subject: mailToEdit.subject, body: mailToEdit.body })
-    console.log(timeoutRef.current)
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
       timeoutRef.current = null

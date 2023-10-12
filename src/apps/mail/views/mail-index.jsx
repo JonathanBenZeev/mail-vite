@@ -87,34 +87,17 @@ export function MailIndex() {
 		}
 	}
 
-	async function onArchiveSelected() {
+	async function toggleArchiveSelected() {
 		try {
-			const mailsToArchive = await Promise.all(selectedMailsIds.map((id) => mailService.get(id)))
-			const mailsToSave = mailsToArchive.map(m => {
-				return {
-					...m,
-					removedAt: Date.now()
-				}
+			const savedMails = await mailService.toggleArchiveMany(selectedMailsIds)
+			setMails(prevMails => {
+				return prevMails.filter(m => !selectedMailsIds.includes(m.id))
 			})
-		 const savedMails = await Promise.all(mailsToSave.forEach((m) => archiveSelected(m)))
-		 
-			
+			showSuccessMsg('selected mails were sent to trash')
 		} catch (err) {
 			console.log('cannot delete all mails ', err)
-		}
-	}
-
-	async function archiveSelected(mail){
-		try {
-			const updatedMail = await mailService.save(mail)
-			// Filter it out of the current state (based on folder and ux logic)
-			setMails(prevMails => {
-				return prevMails.filter(mail => mail.id !== updatedMail.id)
-			})
-			showSuccessMsg('Mail was sent to trash')
-		} catch (err) {
-			showErrorMsg('Can not update mail')
-			console.log('Had issues updating mail', err);
+		} finally {
+			setSelectedMailsIds([])
 		}
 	}
 
@@ -177,12 +160,16 @@ export function MailIndex() {
 				<MailFilter onSetFilter={onSetFilter} filterBy={{ txt: filterBy.txt }} />
 				{(!params.mailId || location.pathname.includes('compose')) && (
 					<div className="mail-list-container">
-						{selectedMailsIds.length > 0 && <section className='multiple-mails-action' onClick={onArchiveSelected}>Archive selected</section>}
+						{selectedMailsIds.length > 0 && (
+							<section className='multiple-mails-action'
+								onClick={toggleArchiveSelected}>{params.folder === 'trash' ? 'unarchive selected mails' : 'archive selected'}
+							</section>)}
 						<MailSort onSetSortBy={setSortBy} sortBy={sortBy} />
 						<MailList
 							toggleEmailSelection={toggleEmailSelection}
 							selectedMailsIds={selectedMailsIds}
 							mails={mails}
+							folder={params.folder}
 							onUpdateMail={onUpdateMail}
 							onRemoveMail={onRemoveMail}
 							onToggleTrash={onToggleTrash}
